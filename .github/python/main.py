@@ -1,7 +1,8 @@
 import argparse
 import threading
 import time
-
+import os
+import sys
 import requests
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -14,7 +15,13 @@ def main(url: str):
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
     chrome_options.add_argument('--disable-extensions')
 
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+
+    if sys.platform.startswith('win'):
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    else:
+        executable_path = os.getcwd() + '/chromedriver'
+        driver = webdriver.Chrome(executable_path=executable_path, options=chrome_options)
+
     driver.get(url)
 
     time.sleep(1)
