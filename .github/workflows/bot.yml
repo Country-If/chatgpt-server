@@ -7,7 +7,7 @@ on:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     if: github.repository == 'xiaoxuan6/chatgpt-server'
     steps:
       - name: Checkout code
@@ -20,6 +20,7 @@ jobs:
         env:
           URL: ${{ secrets.URL }}
         run: |
+          python -m pip install --upgrade pip
           pip install -r ./requirements.txt
           data="$(python main.py --url=$URL)"
           echo "urls=$data" >> $GITHUB_ENV
